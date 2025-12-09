@@ -1,19 +1,14 @@
 import type React from "react";
 import type { Metadata } from "next";
-import {
-  Playfair_Display,
-  Cormorant_Garamond,
-  Montserrat,
-  Inter,
-} from "next/font/google";
+import { Cinzel, Cormorant_Garamond, Lato } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Suspense } from "react";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import "./globals.css";
 
-const playfair = Playfair_Display({
+const cinzel = Cinzel({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  variable: "--font-cinzel",
   display: "swap",
 });
 
@@ -24,15 +19,10 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
-const montserrat = Montserrat({
+const lato = Lato({
   subsets: ["latin"],
-  variable: "--font-montserrat",
-  display: "swap",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["300", "400", "700"],
+  variable: "--font-lato",
   display: "swap",
 });
 
@@ -52,6 +42,9 @@ export const metadata: Metadata = {
   },
 };
 
+import { SecurityProvider } from "@/components/security-provider";
+import { cn } from "@/lib/utils";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -59,9 +52,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        />
+      </head>
       <body
-        className={`${playfair.variable} ${cormorant.variable} ${montserrat.variable} ${inter.variable} font-sans antialiased`}
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          lato.variable,
+          cinzel.variable,
+          cormorant.variable,
+          "font-sans"
+        )}
       >
+        <SecurityProvider />
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         <WhatsAppButton />
         <Analytics />
